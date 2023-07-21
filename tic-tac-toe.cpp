@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 #include <array>
 
 const int ROWS = 3;
@@ -89,11 +90,21 @@ void getUserInput(bool xTurn, std::array<std::array<char, COLS>, ROWS> gameBoard
             std::cout << "You did not enter an integer. " << std::endl;
 
             std::cin.clear(); // clear the error state of the cin object
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear the input buffer
 
             std::cout << "Try again: " << std::endl;
             std::cin >> colValue >> rowValue;
         } else {
+
+            if (!validateUserInput(colValue, rowValue)) {
+                std::cout << "Entered values are out of range." << std::endl;
+
+                std::cin.clear(); // clear the error state of the cin object
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear the input buffer
+                
+                std::cout << "Try again: " << std::endl;
+                std::cin >> colValue >> rowValue;
+            }
             std::cout << "Entered values:" << std::endl;
             std::cout << "Column: " << colValue << std::endl;
             std::cout << "Row: " << rowValue << std::endl << std::endl;
